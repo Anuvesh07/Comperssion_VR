@@ -28,8 +28,10 @@ async fn main() {
     let app = api::routes::build_router().layer(cors);
 
     // Start server
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3001").await.unwrap();
-    tracing::info!("Backend listening on http://localhost:3001");
+    let port = std::env::var("PORT").unwrap_or_else(|_| "3001".to_string());
+    let addr = format!("0.0.0.0:{}", port);
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    tracing::info!("Backend listening on http://{}", addr);
 
     axum::serve(listener, app).await.unwrap();
 }

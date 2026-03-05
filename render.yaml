@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: compression-platform-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: RUST_LOG
+        value: info
